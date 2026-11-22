@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Jam Seed — GDG on Campus Seneca</title>
+    <meta
+      name="description"
+      content="Type a half-formed idea. Get a spec you can actually build in two hours with Google's free AI tools."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="phone">
+      <div class="brand">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>GDG on Campus · Seneca</span>
+        <span class="room hidden" id="room"></span>
+      </div>
+
+      <!-- step 1: the idea -->
+      <section id="ask">
+        <h1>You have two hours.<br />What are you building?</h1>
+        <p class="sub">
+          Give it to us half-formed. Gemini cuts it down to something you can actually finish before
+          the pizza is gone, and hands you the prompt to start from.
+        </p>
+
+        <div class="note bad hidden" id="keynote">
+          <strong>Server has no Gemini key yet.</strong>
+          <span id="keymsg"></span>
+        </div>
+
+        <div class="field">
+          <label for="idea">Your idea</label>
+          <textarea
+            id="idea"
+            rows="4"
+            maxlength="400"
+            placeholder="an app that tells me where the free food is on campus"
+          ></textarea>
+          <div class="count"><span id="count">0</span>/400</div>
+        </div>
+
+        <div class="examples" id="examples">
+          <button type="button">something with the campus map</button>
+          <button type="button">a thing that listens and replies</button>
+          <button type="button">make my group chat less chaotic</button>
+          <button type="button">surprise me</button>
+        </div>
+
+        <div class="field">
+          <label for="name">Your name, for the wall</label>
+          <input id="name" type="text" maxlength="32" placeholder="optional" />
+        </div>
+
+        <button class="go" id="go" type="button">Seed my jam</button>
+      </section>
+
+      <!-- step 2: streaming -->
+      <section id="working" class="hidden">
+        <div class="working">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span id="workingtext">Cutting it down to two hours…</span>
+        </div>
+      </section>
+
+      <!-- step 3: the spec -->
+      <section id="result" class="hidden">
+        <article class="spec">
+          <header>
+            <h2 id="s-title">…</h2>
+            <p id="s-pitch"></p>
+          </header>
+          <section id="sec-build">
+            <h3>Build this</h3>
+            <ul id="s-build"></ul>
+          </section>
+          <section id="sec-skip">
+            <h3>Not today</h3>
+            <ul id="s-skip"></ul>
+          </section>
+          <section id="sec-stack">
+            <h3>Free Google stack</h3>
+            <ul id="s-stack"></ul>
+          </section>
+          <section id="sec-milestones">
+            <h3>Two hours</h3>
+            <ul id="s-milestones"></ul>
+          </section>
+          <section class="prompt">
+            <h3>Paste this into AI Studio</h3>
+            <pre id="s-prompt"></pre>
+            <div class="row">
+              <button type="button" id="copy">Copy prompt</button>
+              <a href="https://aistudio.google.com/prompts/new_chat" target="_blank" rel="noopener"
+                >Open AI Studio ↗</a
+              >
+            </div>
+          </section>
+        </article>
+
+        <div class="after">
+          <button type="button" id="again">Start over</button>
+          <button type="button" class="pin hidden" id="pin">Pin to the wall</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

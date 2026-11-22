@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jam Seed — the wall</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="screen">
+      <aside class="rail">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <h1>Jam Seed</h1>
+        <p class="lede">
+          Scan it. Type the idea you have been sitting on. Gemini cuts it to two hours and hands you
+          the prompt to start from.
+        </p>
+        <div id="qr"></div>
+        <div>
+          <div class="code" id="code">····</div>
+          <div class="joinurl" id="joinurl"></div>
+        </div>
+        <div class="tally">
+          <b id="tally">0</b>
+          ideas seeded so far
+        </div>
+      </aside>
+
+      <main class="wall" id="wall">
+        <p class="empty">Nothing on the wall yet. First one up sets the tone.</p>
+      </main>
+    </div>
+
+    <script src="vendor/qrcode.js"></script>
+    <script src="screen.js"></script>
+  </body>
+</html>
