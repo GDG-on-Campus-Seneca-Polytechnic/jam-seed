@@ -1,242 +1,395 @@
+/* Jam Seed. One stylesheet for the phone (body.phone-page) and the projector (body.screen-page).
+   Direction: a seed packet. Flat GDG colors, Roboto 400/900 only, ink on paper. */
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("vendor/fonts/roboto-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("vendor/fonts/roboto-900.woff") format("woff");
+}
+
 :root {
   --blue: #4285f4;
   --red: #ea4335;
-  --yellow: #fbbc04;
+  --yellow: #f9ab00;
   --green: #34a853;
-  --ink: #16181d;
-  --paper: #f6f7fb;
-  --line: rgba(22, 24, 29, 0.12);
-  --shadow: 0 6px 0 rgba(0, 0, 0, 0.22);
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ink: #1e1e1e;
+  --paper: #f0f0f0;
+  --white: #ffffff;
+  --muted: #5c5f66; /* 6.3:1 on white, 5.5:1 on paper */
+  --line: rgba(30, 30, 30, 0.14);
+  --radius: 14px;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  font-weight: 400;
+  color-scheme: light;
 }
 
 * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
 }
 
-button {
-  font: inherit;
-  font-weight: 800;
-  border: 3px solid var(--ink);
-  border-radius: 999px;
-  background: #fff;
-  padding: 0.7em 1.4em;
-  box-shadow: var(--shadow);
-  cursor: pointer;
-}
-
-button:active:not(:disabled) {
-  transform: translateY(3px);
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.22);
-}
-
-button:disabled {
-  opacity: 0.45;
-  cursor: default;
-  box-shadow: none;
-}
-
-button.go {
-  background: var(--blue);
-  color: #fff;
-  width: 100%;
-  font-size: 1.05rem;
+h1,
+h2,
+h3,
+b,
+strong {
+  font-weight: 900;
 }
 
 .hidden {
   display: none !important;
 }
 
-/* Four-dot GDG tick, used as a spinner and as a bullet. */
-.dots {
-  display: inline-flex;
-  gap: 5px;
-  align-items: center;
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
 }
 
-.dots i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
+/* ---------- own mark: a seed putting out two leaves ---------- */
+
+.mark,
+.sprout {
   display: block;
-  animation: bob 1s infinite ease-in-out;
+  flex: none;
+  overflow: visible;
 }
 
-.dots i:nth-child(1) { background: var(--blue); }
-.dots i:nth-child(2) { background: var(--red); animation-delay: 0.12s; }
-.dots i:nth-child(3) { background: var(--yellow); animation-delay: 0.24s; }
-.dots i:nth-child(4) { background: var(--green); animation-delay: 0.36s; }
+.mark-seed { fill: var(--yellow); stroke: var(--ink); stroke-width: 2.5; }
+.mark-stem { stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; fill: none; }
+.mark-leaf-l,
+.mark-leaf-r { fill: var(--green); stroke: var(--ink); stroke-width: 2.5; stroke-linejoin: round; }
 
-@keyframes bob {
-  0%, 60%, 100% { transform: translateY(0); }
-  30% { transform: translateY(-6px); }
+/* ---------- buttons ---------- */
+
+button {
+  font: inherit;
+  font-weight: 900;
+  color: var(--ink);
+  border: 2.5px solid var(--ink);
+  border-radius: 999px;
+  background: var(--white);
+  padding: 0.8em 1.3em;
+  min-height: 48px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-/* ---------- phone ---------- */
+button:active:not(:disabled) {
+  transform: translateY(2px);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* =========================================================
+   Phone
+   ========================================================= */
 
 .phone {
   max-width: 34rem;
   margin: 0 auto;
-  padding: 1.25rem 1rem 4rem;
+  padding: max(1rem, env(safe-area-inset-top)) 1rem max(1.5rem, env(safe-area-inset-bottom));
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
-.brand {
+.step {
+  flex: 1 0 auto;
+}
+
+.phone .brand {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-weight: 800;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.phone .mark {
+  width: 34px;
+  height: 34px;
+}
+
+.brand-name {
+  font-weight: 900;
+  font-size: 1.15rem;
   letter-spacing: -0.01em;
-  margin-bottom: 1.1rem;
 }
 
-.brand .room {
+.phone .room {
   margin-left: auto;
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  border: 2px solid var(--ink);
-  border-radius: 999px;
-  padding: 0.15em 0.7em;
-  font-size: 0.85rem;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  background: var(--ink);
+  color: var(--white);
+  border-radius: 8px;
+  padding: 0.3em 0.55em 0.3em 0.7em;
 }
 
-h1 {
-  font-size: 1.85rem;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  margin: 0 0 0.5rem;
+.phone h1 {
+  font-size: clamp(1.9rem, 8.4vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.75rem;
+  text-wrap: balance;
 }
 
 .sub {
-  margin: 0 0 1.25rem;
-  color: #555b66;
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+  font-size: 1rem;
   line-height: 1.5;
 }
 
 label {
   display: block;
-  font-weight: 700;
-  font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.4rem;
+  font-weight: 900;
+  font-size: 1rem;
+  margin-bottom: 0.45rem;
+}
+
+label .opt {
+  font-weight: 400;
+  color: var(--muted);
 }
 
 input[type="text"],
 textarea {
   font: inherit;
+  font-size: 1.0625rem; /* 17px: above the 16px iOS zoom threshold */
+  line-height: 1.45;
+  color: var(--ink);
   width: 100%;
-  border: 3px solid var(--ink);
-  border-radius: 14px;
-  padding: 0.7em 0.8em;
-  background: #fff;
+  border: 2.5px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 0.75em 0.85em;
+  background: var(--white);
   resize: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #8a8d93;
 }
 
 input[type="text"]:focus,
 textarea:focus {
-  outline: 3px solid var(--blue);
-  outline-offset: 1px;
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
 }
 
 .field {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .count {
-  font-size: 0.75rem;
-  color: #6b7280;
+  font-size: 0.8rem;
+  color: var(--muted);
   text-align: right;
-  margin-top: 0.25rem;
+  margin-top: 0.3rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.examples-label {
+  margin: -0.5rem 0 0.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
 }
 
 .examples {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: -0.4rem 0 1.25rem;
+  gap: 0.45rem;
+  margin: 0 0 1.6rem;
 }
 
 .examples button {
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 0.4em 0.8em;
-  border-width: 2px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  min-height: 40px;
+  padding: 0.45em 0.9em;
+  border-width: 1.5px;
+  border-color: var(--line);
+  background: var(--white);
+  text-align: left;
+}
+
+.examples button:hover {
+  border-color: var(--ink);
+}
+
+button.go {
+  width: 100%;
+  font-size: 1.15rem;
+  min-height: 58px;
+  background: var(--yellow);
+  border-color: var(--ink);
+  box-shadow: 0 4px 0 var(--ink);
+}
+
+button.go:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+button.go:disabled {
   box-shadow: none;
-  background: #fff;
 }
 
+/* Notes: the "no key yet" card, a wrong model, and run errors. JS may replace the children
+   with plain text, so the card has to read well either way. */
 .note {
-  border: 3px solid var(--ink);
-  border-left-width: 10px;
-  border-radius: 14px;
-  background: #fff;
-  padding: 0.9rem 1rem;
+  border: 2.5px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--white);
+  padding: 0.9rem 1rem 0.95rem 1.1rem;
+  font-size: 0.98rem;
   line-height: 1.5;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: inset 8px 0 0 var(--red);
+  padding-left: 1.4rem;
+  overflow-wrap: anywhere;
 }
 
-.note.warn { border-left-color: var(--yellow); }
-.note.bad { border-left-color: var(--red); }
-.note code {
-  font-size: 0.85em;
-  background: var(--paper);
-  padding: 0.1em 0.4em;
-  border-radius: 5px;
+.note strong {
+  display: block;
+  margin-bottom: 0.15rem;
 }
 
-/* ---------- spec card ---------- */
+.note.warn { box-shadow: inset 8px 0 0 var(--yellow); }
+
+/* ---------- waiting for the first token ---------- */
+
+.working {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0 1.25rem;
+  font-weight: 900;
+  font-size: 1.15rem;
+}
+
+.working .sprout {
+  width: 44px;
+  height: 44px;
+}
+
+.sprout .mark-leaf-l,
+.sprout .mark-leaf-r,
+.sprout .mark-stem {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: grow 1.6s ease-in-out infinite;
+}
+
+.sprout .mark-leaf-l { transform-origin: 100% 100%; animation-delay: 0.1s; }
+.sprout .mark-leaf-r { transform-origin: 0% 100%; animation-delay: 0.2s; }
+
+@keyframes grow {
+  0%, 100% { transform: scale(0.55); }
+  50% { transform: scale(1); }
+}
+
+.skeleton {
+  border: 2.5px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+  padding: 1.1rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.skeleton i {
+  display: block;
+  height: 0.85rem;
+  border-radius: 6px;
+  background: #e2e2e2;
+  animation: breathe 1.4s ease-in-out infinite;
+}
+
+.skeleton .sk-head { height: 1.6rem; width: 70%; background: #fde7b3; }
+.skeleton .short { width: 55%; }
+
+@keyframes breathe {
+  50% { opacity: 0.45; }
+}
+
+/* ---------- the spec: a seed packet ---------- */
 
 .spec {
-  border: 3px solid var(--ink);
+  border: 2.5px solid var(--ink);
   border-radius: 18px;
-  background: #fff;
-  box-shadow: var(--shadow);
+  background: var(--white);
   overflow: hidden;
+  overflow: clip; /* clip, not a scroll container, so the sticky note below can stick */
 }
 
 .spec header {
-  padding: 1.1rem 1.1rem 0.9rem;
-  border-bottom: 3px solid var(--ink);
-  background: linear-gradient(105deg, var(--blue), #7b5cf0);
-  color: #fff;
+  background: var(--yellow);
+  padding: 1rem 1.15rem 1.15rem;
+  border-bottom: 2.5px solid var(--ink);
+}
+
+.packet {
+  margin: 0 0 0.55rem;
+  font-size: 0.85rem;
+  font-weight: 900;
+  display: inline-block;
+  background: var(--ink);
+  color: var(--yellow);
+  border-radius: 6px;
+  padding: 0.2em 0.55em;
 }
 
 .spec header h2 {
-  margin: 0 0 0.3rem;
-  font-size: 1.45rem;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.8rem, 8vw, 2.3rem);
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+  overflow-wrap: anywhere;
 }
 
-.spec header p {
+.spec header p:not(.packet) {
   margin: 0;
-  opacity: 0.92;
-  line-height: 1.4;
+  font-size: 1.02rem;
+  line-height: 1.45;
 }
 
 .spec section {
-  padding: 0.95rem 1.1rem;
-  border-bottom: 1px solid var(--line);
+  padding: 1rem 1.15rem;
+  border-bottom: 1.5px solid var(--line);
 }
-
-.spec section:last-child { border-bottom: 0; }
 
 .spec h3 {
-  margin: 0 0 0.55rem;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #6b7280;
+  margin: 0 0 0.6rem;
+  font-size: 1rem;
+  letter-spacing: -0.005em;
 }
 
-.spec ul {
+.spec ul,
+.spec ol {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -244,48 +397,90 @@ textarea:focus {
 
 .spec li {
   position: relative;
-  padding-left: 1.1rem;
-  margin-bottom: 0.4rem;
+  padding-left: 1.35rem;
+  margin-bottom: 0.5rem;
   line-height: 1.45;
-}
-
-.spec li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.55em;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--blue);
+  overflow-wrap: anywhere;
 }
 
 .spec li:last-child { margin-bottom: 0; }
 
-#sec-skip li::before { background: var(--red); }
-#sec-skip li { color: #6b7280; text-decoration: line-through; }
-#sec-stack li::before { background: var(--green); }
-#sec-milestones li::before { background: var(--yellow); }
+.spec li::before {
+  content: "";
+  position: absolute;
+  left: 0.1rem;
+  top: 0.42em;
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+  background: var(--green);
+}
 
+#sec-skip li { color: var(--muted); }
+#sec-skip li::before {
+  background: none;
+  border-radius: 0;
+  height: 2.5px;
+  top: 0.7em;
+  background-color: var(--red);
+}
+
+#sec-stack li::before { background: var(--blue); }
+
+/* Milestones are a real sequence: a vertical timeline. */
 #sec-milestones li {
+  padding-left: 1.6rem;
+  padding-bottom: 0.15rem;
+  margin-bottom: 0.65rem;
+}
+
+#sec-milestones li::before {
+  background: var(--white);
+  border: 2.5px solid var(--ink);
+  width: 0.75rem;
+  height: 0.75rem;
+  top: 0.3em;
+}
+
+#sec-milestones li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 0.43rem;
+  top: 1.3em;
+  bottom: -0.75rem;
+  width: 2.5px;
+  background: var(--ink);
+}
+
+#sec-milestones li:last-child::before {
+  background: var(--yellow);
+}
+
+.time {
+  display: block;
+  font-weight: 900;
   font-variant-numeric: tabular-nums;
+  font-size: 0.92rem;
 }
 
 .prompt {
   background: var(--ink);
-  color: #e8eaf0;
-  padding: 1rem 1.1rem;
+  color: #ececec;
 }
 
-.prompt h3 { color: #9aa3b2; }
+.spec .prompt {
+  border-bottom: 0;
+}
+
+.prompt h3 { color: var(--yellow); }
 
 .prompt pre {
-  margin: 0 0 0.8rem;
+  margin: 0 0 1rem;
   white-space: pre-wrap;
-  word-break: break-word;
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.85rem;
-  line-height: 1.55;
+  overflow-wrap: anywhere;
+  font-family: var(--mono);
+  font-size: 0.88rem;
+  line-height: 1.6;
 }
 
 .prompt .row {
@@ -296,154 +491,372 @@ textarea:focus {
 
 .prompt button,
 .prompt a {
-  font-size: 0.85rem;
-  padding: 0.5em 1em;
-  border: 2px solid #e8eaf0;
+  flex: 1 1 9rem;
+  font-size: 0.95rem;
+  font-weight: 900;
+  min-height: 48px;
+  padding: 0.7em 1em;
   border-radius: 999px;
-  background: transparent;
-  color: #e8eaf0;
-  box-shadow: none;
   text-decoration: none;
-  font-weight: 700;
-  display: inline-block;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prompt button {
+  background: var(--yellow);
+  border: 2.5px solid var(--yellow);
+  color: var(--ink);
+}
+
+.prompt a {
+  border: 2.5px solid #ececec;
+  color: #ececec;
+}
+
+.prompt a:focus-visible,
+.prompt button:focus-visible {
+  outline-color: var(--yellow);
+}
+
+/* While tokens are arriving: a caret after the last thing written, actions held back. */
+.streaming-note {
+  display: none;
+}
+
+.streaming .streaming-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.85rem 1.15rem;
+  font-weight: 900;
+  font-size: 0.95rem;
+  background: var(--paper);
+  border-top: 1.5px solid var(--line);
+  position: sticky;
+  bottom: 0;
+}
+
+.streaming .streaming-note::before {
+  content: "";
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--green);
+  animation: breathe 1s ease-in-out infinite;
+}
+
+.streaming .prompt .row,
+.streaming .after {
+  display: none;
+}
+
+.streaming .prompt pre:empty::before {
+  content: "Writing your prompt…";
+  color: #9a9a9a;
 }
 
 .after {
   display: flex;
+  flex-direction: column;
   gap: 0.6rem;
   margin-top: 1.1rem;
 }
 
-.after button { flex: 1; font-size: 0.9rem; }
-.after button.pin { background: var(--green); color: #fff; }
-
-.working {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 1rem 0;
-  font-weight: 700;
+.after button {
+  width: 100%;
+  font-size: 1.05rem;
 }
 
-/* ---------- big screen ---------- */
+.after button.pin {
+  background: var(--green);
+  color: var(--ink);
+  min-height: 56px;
+  box-shadow: 0 4px 0 var(--ink);
+}
+
+.after button.pin:disabled {
+  opacity: 1;
+  background: var(--white);
+  box-shadow: none;
+}
+
+#again {
+  background: transparent;
+  border-color: var(--line);
+}
+
+.phone .legal {
+  margin-top: 2.5rem;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+/* =========================================================
+   Projector. Sized off the viewport so 1920x1080 reads from the back row:
+   1rem = 20px there. Nothing scrolls; the newest ideas stay on top.
+   ========================================================= */
+
+html:has(body.screen-page) {
+  font-size: clamp(14px, 1.04vw, 30px);
+}
+
+.screen-page {
+  height: 100vh;
+  overflow: hidden;
+}
 
 .screen {
-  min-height: 100vh;
+  height: 100vh;
   display: grid;
-  grid-template-columns: 22rem 1fr;
+  grid-template-columns: minmax(24rem, 30%) 1fr;
 }
 
 .rail {
-  background: var(--ink);
-  color: #fff;
-  padding: 2rem 1.75rem;
+  background: var(--yellow);
+  border-right: 3px solid var(--ink);
+  padding: 2rem 2.2rem 1.4rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: min(1.1rem, 1.8vh);
+  min-height: 0;
+  overflow: hidden;
 }
 
+.rail .brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.rail .mark {
+  width: 3.4rem;
+  height: 3.4rem;
+}
+
+.rail .mark-seed { fill: var(--white); }
+
 .rail h1 {
-  font-size: 2.1rem;
+  font-size: 3rem;
+  letter-spacing: -0.03em;
+  line-height: 1;
   margin: 0;
 }
 
 .rail .lede {
-  color: #a8b0be;
-  line-height: 1.5;
+  font-size: 1.3rem;
+  line-height: 1.35;
   margin: 0;
+  max-width: 24ch;
 }
 
-.code {
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 3.6rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  line-height: 1;
+.join {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 #qr {
-  background: #fff;
-  border-radius: 14px;
-  padding: 0.75rem;
-  width: 12rem;
+  background: var(--white);
+  border: 3px solid var(--ink);
+  border-radius: 18px;
+  padding: 1.1rem; /* quiet zone */
+  width: min(100%, 19rem, 34vh);
+  aspect-ratio: 1;
 }
 
-#qr svg { display: block; width: 100%; height: auto; }
+#qr svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.code-label {
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.code {
+  font-weight: 900;
+  font-size: 7.2rem;
+  letter-spacing: 0.05em;
+  line-height: 0.95;
+  margin: 0.1rem 0 0.4rem;
+  font-variant-numeric: tabular-nums;
+}
 
 .joinurl {
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.9rem;
-  color: #a8b0be;
-  word-break: break-all;
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .tally {
   margin-top: auto;
-  font-size: 0.85rem;
-  color: #a8b0be;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 1.3rem;
 }
 
-.tally b { color: #fff; font-size: 1.6rem; display: block; }
+.tally b {
+  font-size: 3rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.rail .legal {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  max-width: 34ch;
+}
+
+/* ---------- the wall ---------- */
 
 .wall {
+  min-height: 0;
+  overflow: hidden;
   padding: 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-auto-rows: min-content;
-  gap: 1rem;
+  grid-auto-flow: row dense;
+  gap: 1.1rem;
   align-content: start;
+  /* Older ideas fade out at the bottom rather than getting cut mid-line. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 7rem), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 7rem), transparent);
 }
 
 .wall .empty {
   grid-column: 1 / -1;
-  color: #6b7280;
-  font-size: 1.3rem;
-  padding-top: 4rem;
+  align-self: center;
+  margin: 26vh auto 0;
+  max-width: 22ch;
   text-align: center;
+  font-size: 2.4rem;
+  font-weight: 900;
+  line-height: 1.15;
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+  color: var(--muted);
 }
 
 .tile {
-  border: 3px solid var(--ink);
+  position: relative;
+  background: var(--white);
+  border: 2.5px solid var(--ink);
   border-radius: 16px;
-  background: #fff;
-  padding: 1rem;
-  box-shadow: var(--shadow);
-  animation: pop 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+  padding: 1.1rem 1.25rem 1rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  overflow: hidden;
 }
 
+/* A colored seam down the left edge, cycling through the four brand colors. */
+.tile::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0.55rem;
+  background: var(--blue);
+  border-right: 2.5px solid var(--ink);
+}
+
+.tile:nth-child(4n + 2)::before { background: var(--green); }
+.tile:nth-child(4n + 3)::before { background: var(--red); }
+.tile:nth-child(4n + 4)::before { background: var(--yellow); }
+
 .tile h3 {
-  margin: 0 0 0.35rem;
-  font-size: 1.15rem;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
+  margin: 0;
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .tile p {
-  margin: 0 0 0.6rem;
-  line-height: 1.4;
-  color: #3c4250;
-  font-size: 0.92rem;
+  margin: 0;
+  font-size: 1.15rem;
+  line-height: 1.35;
+  color: #3a3d43;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .tile .by {
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: #6b7280;
+  margin-top: auto;
+  padding-top: 0.2rem;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.tile:nth-child(4n + 1) { border-top: 10px solid var(--blue); }
-.tile:nth-child(4n + 2) { border-top: 10px solid var(--red); }
-.tile:nth-child(4n + 3) { border-top: 10px solid var(--yellow); }
-.tile:nth-child(4n + 4) { border-top: 10px solid var(--green); }
-
-@keyframes pop {
-  from { transform: scale(0.9) translateY(10px); opacity: 0; }
-  to { transform: none; opacity: 1; }
+/* The newest idea gets the big slot. */
+.tile:first-child {
+  grid-column: span 2;
+  padding: 1.5rem 1.75rem 1.35rem 2.2rem;
 }
 
+.tile:first-child::before { width: 0.8rem; }
+.tile:first-child h3 { font-size: 2.5rem; }
+.tile:first-child p { font-size: 1.4rem; }
+.tile:first-child .by { font-size: 1.2rem; }
+
+/* A pin that just landed: rises out of the ground, then glows yellow for a few seconds. */
+.tile.fresh {
+  animation:
+    sprout-in 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.15) both,
+    glow 4.5s ease-out 0.3s both;
+}
+
+@keyframes sprout-in {
+  from { opacity: 0; transform: translateY(1.5rem) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes glow {
+  0%, 35% { box-shadow: 0 0 0 0.45rem var(--yellow); }
+  100% { box-shadow: 0 0 0 0 rgba(249, 171, 0, 0); }
+}
+
+/* Narrow screens (a laptop preview, not the projector): stack the rail. */
 @media (max-width: 860px) {
+  .screen-page,
+  .screen { height: auto; overflow: visible; }
   .screen { grid-template-columns: 1fr; }
-  .rail { flex-direction: column; }
+  .rail { border-right: 0; border-bottom: 3px solid var(--ink); }
+  .wall { grid-template-columns: 1fr; mask-image: none; -webkit-mask-image: none; }
+  .tile:first-child { grid-column: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Keep the "just landed" cue, without movement: hold the glow, then let it go. */
+  .tile.fresh {
+    animation: glow 4.5s ease-out both !important;
+  }
 }

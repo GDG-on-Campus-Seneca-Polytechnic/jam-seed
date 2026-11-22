@@ -3,30 +3,37 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#F9AB00" />
     <title>Jam Seed — GDG on Campus Seneca</title>
     <meta
       name="description"
       content="Type a half-formed idea. Get a spec you can actually build in two hours with Google's free AI tools."
     />
+    <link rel="preload" href="vendor/fonts/roboto-900.woff" as="font" type="font/woff" crossorigin />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body class="phone-page">
     <main class="phone">
       <div class="brand">
-        <span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span>GDG on Campus · Seneca</span>
-        <span class="room hidden" id="room"></span>
+        <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+          <path class="mark-leaf-l" d="M20 17c-1-6-6-9-12-8 0 6 5 9 12 8z" />
+          <path class="mark-leaf-r" d="M20 15c1-7 6-11 13-10 0 7-6 11-13 10z" />
+          <path class="mark-stem" d="M20 26V15" />
+          <ellipse class="mark-seed" cx="20" cy="29" rx="9" ry="7" />
+        </svg>
+        <span class="brand-name">Jam Seed</span>
+        <span class="room hidden" id="room" title="Room code"></span>
       </div>
 
       <!-- step 1: the idea -->
-      <section id="ask">
-        <h1>You have two hours.<br />What are you building?</h1>
+      <section id="ask" class="step">
+        <h1>You have two hours. What are you building?</h1>
         <p class="sub">
-          Give it to us half-formed. Gemini cuts it down to something you can actually finish before
-          the pizza is gone, and hands you the prompt to start from.
+          Give it to us half-formed. Gemini cuts it down to something you can finish before the
+          pizza is gone, and hands you the prompt to start from.
         </p>
 
-        <div class="note bad hidden" id="keynote">
+        <div class="note bad hidden" id="keynote" role="alert">
           <strong>Server has no Gemini key yet.</strong>
           <span id="keymsg"></span>
         </div>
@@ -42,7 +49,8 @@
           <div class="count"><span id="count">0</span>/400</div>
         </div>
 
-        <div class="examples" id="examples">
+        <p class="examples-label" id="examples-label">Stuck? Start from one of these.</p>
+        <div class="examples" id="examples" aria-labelledby="examples-label">
           <button type="button">something with the campus map</button>
           <button type="button">a thing that listens and replies</button>
           <button type="button">make my group chat less chaotic</button>
@@ -50,25 +58,34 @@
         </div>
 
         <div class="field">
-          <label for="name">Your name, for the wall</label>
-          <input id="name" type="text" maxlength="32" placeholder="optional" />
+          <label for="name">Your name, for the wall <span class="opt">(optional)</span></label>
+          <input id="name" type="text" maxlength="32" autocomplete="nickname" placeholder="Anonymous" />
         </div>
 
         <button class="go" id="go" type="button">Seed my jam</button>
       </section>
 
-      <!-- step 2: streaming -->
-      <section id="working" class="hidden">
+      <!-- step 2: waiting for the first token -->
+      <section id="working" class="step hidden" aria-live="polite">
         <div class="working">
-          <span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <svg class="sprout" viewBox="0 0 40 40" aria-hidden="true">
+            <path class="mark-leaf-l" d="M20 17c-1-6-6-9-12-8 0 6 5 9 12 8z" />
+            <path class="mark-leaf-r" d="M20 15c1-7 6-11 13-10 0 7-6 11-13 10z" />
+            <path class="mark-stem" d="M20 26V15" />
+            <ellipse class="mark-seed" cx="20" cy="29" rx="9" ry="7" />
+          </svg>
           <span id="workingtext">Cutting it down to two hours…</span>
+        </div>
+        <div class="skeleton" aria-hidden="true">
+          <i class="sk-head"></i><i></i><i></i><i class="short"></i>
         </div>
       </section>
 
       <!-- step 3: the spec -->
-      <section id="result" class="hidden">
+      <section id="result" class="step hidden">
         <article class="spec">
           <header>
+            <p class="packet">Two-hour build</p>
             <h2 id="s-title">…</h2>
             <p id="s-pitch"></p>
           </header>
@@ -81,12 +98,12 @@
             <ul id="s-skip"></ul>
           </section>
           <section id="sec-stack">
-            <h3>Free Google stack</h3>
+            <h3>Free Google tools</h3>
             <ul id="s-stack"></ul>
           </section>
           <section id="sec-milestones">
-            <h3>Two hours</h3>
-            <ul id="s-milestones"></ul>
+            <h3>Your two hours</h3>
+            <ol id="s-milestones"></ol>
           </section>
           <section class="prompt">
             <h3>Paste this into AI Studio</h3>
@@ -98,13 +115,18 @@
               >
             </div>
           </section>
+          <p class="streaming-note" aria-hidden="true">Still writing…</p>
         </article>
 
         <div class="after">
-          <button type="button" id="again">Start over</button>
           <button type="button" class="pin hidden" id="pin">Pin to the wall</button>
+          <button type="button" id="again">Start over</button>
         </div>
       </section>
+
+      <footer class="legal">
+        GDG on Campus @ Seneca Polytechnic is not affiliated with or endorsed by Google LLC.
+      </footer>
     </main>
 
     <script src="app.js"></script>

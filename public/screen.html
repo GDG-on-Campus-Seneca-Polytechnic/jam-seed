@@ -4,30 +4,43 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Jam Seed — the wall</title>
+    <link rel="preload" href="vendor/fonts/roboto-900.woff" as="font" type="font/woff" crossorigin />
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body class="screen-page">
     <div class="screen">
       <aside class="rail">
-        <span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <h1>Jam Seed</h1>
+        <div class="brand">
+          <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+            <path class="mark-leaf-l" d="M20 17c-1-6-6-9-12-8 0 6 5 9 12 8z" />
+            <path class="mark-leaf-r" d="M20 15c1-7 6-11 13-10 0 7-6 11-13 10z" />
+            <path class="mark-stem" d="M20 26V15" />
+            <ellipse class="mark-seed" cx="20" cy="29" rx="9" ry="7" />
+          </svg>
+          <h1>Jam Seed</h1>
+        </div>
         <p class="lede">
-          Scan it. Type the idea you have been sitting on. Gemini cuts it to two hours and hands you
-          the prompt to start from.
+          Scan, type the idea you have been sitting on, and get a plan you can build in two hours.
         </p>
-        <div id="qr"></div>
-        <div>
-          <div class="code" id="code">····</div>
-          <div class="joinurl" id="joinurl"></div>
+
+        <div class="join">
+          <div id="qr" role="img" aria-label="QR code to join this room"></div>
+          <div class="join-text">
+            <div class="code-label">Room code</div>
+            <div class="code" id="code">····</div>
+            <div class="joinurl" id="joinurl"></div>
+          </div>
         </div>
-        <div class="tally">
-          <b id="tally">0</b>
-          ideas seeded so far
-        </div>
+
+        <div class="tally"><b id="tally">0</b> <span id="tally-label">ideas on the wall</span></div>
+
+        <p class="legal">
+          GDG on Campus @ Seneca Polytechnic is not affiliated with or endorsed by Google LLC.
+        </p>
       </aside>
 
-      <main class="wall" id="wall">
-        <p class="empty">Nothing on the wall yet. First one up sets the tone.</p>
+      <main class="wall" id="wall" aria-live="polite">
+        <p class="empty">Nothing on the wall yet. Scan the code to post the first idea.</p>
       </main>
     </div>
 

@@ -2,6 +2,7 @@
 
 const el = (id) => document.getElementById(id);
 let count = 0;
+const seen = new Set(); // a reconnect replays every card in "hello"; show each one once
 
 start();
 
@@ -31,9 +32,9 @@ function connect(code) {
   ws.addEventListener("message", (event) => {
     const msg = JSON.parse(event.data);
     if (msg.type === "hello") {
-      for (const card of msg.cards) add(card);
+      for (const card of msg.cards) add(card, false);
     } else if (msg.type === "card") {
-      add(msg.card);
+      add(msg.card, true);
     }
   });
 
@@ -41,12 +42,17 @@ function connect(code) {
   ws.addEventListener("close", () => setTimeout(() => connect(code), 2000));
 }
 
-function add(card) {
+function add(card, fresh) {
+  if (card.id) {
+    if (seen.has(card.id)) return;
+    seen.add(card.id);
+  }
   const empty = document.querySelector(".wall .empty");
   if (empty) empty.remove();
 
   const tile = document.createElement("article");
-  tile.className = "tile";
+  // Only cards pinned live get the entrance; a reload should not replay the whole wall.
+  tile.className = fresh ? "tile fresh" : "tile";
 
   const h3 = document.createElement("h3");
   h3.textContent = card.title;
@@ -61,4 +67,5 @@ function add(card) {
 
   count += 1;
   el("tally").textContent = count;
+  el("tally-label").textContent = count === 1 ? "idea on the wall" : "ideas on the wall";
 }

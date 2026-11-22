@@ -67,10 +67,12 @@ function show(step) {
   for (const id of ["ask", "working", "result"]) {
     el(id).classList.toggle("hidden", id !== step);
   }
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: still ? "auto" : "smooth" });
 }
 
 function fail(message) {
+  el("result").classList.remove("streaming");
   el("keynote").classList.remove("hidden");
   el("keynote").textContent = `That did not work. ${message}`;
   show("ask");
@@ -87,6 +89,8 @@ async function run() {
   el("go").disabled = true;
   el("keynote").classList.add("hidden");
   pinned = false;
+  lastSpec = null; // never pin the previous spec while a new one streams
+  el("result").classList.add("streaming");
   el("pin").textContent = "Pin to the wall";
   el("pin").disabled = false;
   el("pin").classList.toggle("hidden", !/^[A-Z0-9]{4}$/.test(code));
@@ -146,6 +150,7 @@ async function run() {
 
   lastSpec = parse(text);
   render(lastSpec);
+  el("result").classList.remove("streaming");
   el("go").disabled = false;
   if (!lastSpec.title) fail("Gemini answered, but not in a shape we could read. Try again.");
 }
@@ -188,7 +193,7 @@ function render(spec) {
   fill("s-build", spec.build);
   fill("s-skip", spec.skip);
   fill("s-stack", spec.stack);
-  fill("s-milestones", spec.milestones);
+  fill("s-milestones", spec.milestones, true);
   el("s-prompt").textContent = spec.prompt;
 
   for (const [id, list] of [
@@ -201,12 +206,21 @@ function render(spec) {
   }
 }
 
-function fill(id, items) {
+function fill(id, items, timed = false) {
   const ul = el(id);
   ul.innerHTML = "";
   for (const item of items) {
     const li = document.createElement("li");
-    li.textContent = item;
+    // Milestones start with a time range ("0:25-0:60 ..."); set it apart so the plan reads as a clock.
+    const at = timed && /^(\d:\d\d\s*[-–]\s*\d:\d\d)\s*[:–-]?\s*(.*)$/.exec(item);
+    if (at) {
+      const time = document.createElement("span");
+      time.className = "time";
+      time.textContent = at[1].replace(/\s*[-–]\s*/, "–");
+      li.append(time, document.createTextNode(at[2]));
+    } else {
+      li.textContent = item;
+    }
     ul.appendChild(li);
   }
 }
